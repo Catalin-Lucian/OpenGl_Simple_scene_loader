@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{01f25f6b-60e7-4302-8453-2b6a0d032c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{56ea4e23-317c-4e23-9dc7-97ad09a94311}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragment.frag">
+      <Filter>src</Filter>
+    </None>
+    <None Include="vertex.vert">
+      <Filter>src</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="objloader.cpp">
+      <Filter>headers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="objloader.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
