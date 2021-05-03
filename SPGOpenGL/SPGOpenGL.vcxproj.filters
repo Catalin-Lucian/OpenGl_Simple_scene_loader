@@ -7,6 +7,9 @@
     <Filter Include="headers">
       <UniqueIdentifier>{56ea4e23-317c-4e23-9dc7-97ad09a94311}</UniqueIdentifier>
     </Filter>
+    <Filter Include="obj">
+      <UniqueIdentifier>{a3f0df27-172d-4472-9402-53679aa24725}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragment.frag">
