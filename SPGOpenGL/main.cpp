@@ -11,73 +11,30 @@
 #include <vector>
 #include <stack>
 #include <cmath>
+#include <assimp/texture.h>
 
 #include "objloader.hpp"
 #include "shader.h"
 #include "camera.h"
+#include "model.h"
 
 #define PI glm::pi<float>()
 
 int width = 700;
 int height = 700;
 
-
+// ------------ camera and shader -------------------
 Shader shader;
 Camera camera(glm::vec3(0, 12, 30));
-float deltaTime=1;
+
+// ------------ models for the scene ------------
+
+Model ourModel("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/low_poly_room/Room.obj");
 
 
-glm::mat4  modelMatrix;
-std::stack<glm::mat4> modelStack;
-
-std::vector< glm::vec3 > verticesNormals;
-GLuint vaoObj, vboObj;
-
-std::vector< glm::vec3 > vertices;
-std::vector< glm::vec2 > uvs;
-std::vector< glm::vec3 > normals;
-
-
-glm::vec3 lightPos(0, 20000, 0);
-glm::vec3 viewPos(10, 12, 30);
-
-float axisRotAngle = PI / 16.0; // unghiul de rotatie in jurul propriei axe
+float axisRotAngle = PI / 16.0; 
 float radius = 2;
 float scaleFactor = 0.1;
-
-void printShaderInfoLog(GLuint obj)
-{
-	int infologLength = 0;
-	int charsWritten = 0;
-	char* infoLog;
-
-	glGetShaderiv(obj, GL_INFO_LOG_LENGTH, &infologLength);
-
-	if (infologLength > 0)
-	{
-		infoLog = (char*)malloc(infologLength);
-		glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
-		printf("%s\n", infoLog);
-		free(infoLog);
-	}
-}
-
-void printProgramInfoLog(GLuint obj)
-{
-	int infologLength = 0;
-	int charsWritten = 0;
-	char* infoLog;
-
-	glGetProgramiv(obj, GL_INFO_LOG_LENGTH, &infologLength);
-
-	if (infologLength > 0)
-	{
-		infoLog = (char*)malloc(infologLength);
-		glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
-		printf("%s\n", infoLog);
-		free(infoLog);
-	}
-}
 
 
 void init()
@@ -88,27 +45,12 @@ void init()
 	printf("Renderer: %s\n", renderer);
 	printf("OpenGL version supported %s\n", version);
 
-	bool res = loadOBJ("obj/CenterCitySci-Fi.obj", vertices, uvs, normals);
-
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
+	stbi_set_flip_vertically_on_load(true);
+
 	glewInit();
-
-	verticesNormals = vertices;
-	verticesNormals.insert(verticesNormals.end(), normals.begin(), normals.end());
-
-	glGenBuffers(1, &vboObj);
-	glBindBuffer(GL_ARRAY_BUFFER, vboObj);
-	glBufferData(GL_ARRAY_BUFFER, 3 * verticesNormals.size() * sizeof(float), &verticesNormals[0].x, GL_STATIC_DRAW);
-
-	glGenVertexArrays(1, &vaoObj);
-	glBindVertexArray(vaoObj);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(3 * vertices.size() * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	shader.init("vertex.vert", "fragment.frag");
 }
@@ -120,20 +62,19 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader.use();
 
-	glBindVertexArray(vaoObj);
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 100.0f);
+	glm::mat4 view = camera.GetViewMatrix();
+	shader.setMat4("projection", projection);
+	shader.setMat4("view", view);
 
-	shader.set3Float("lightPos", viewPos);
-	shader.set3Float("viewPos", viewPos);
-	
-	modelMatrix = glm::mat4(); // matricea de modelare este matricea identitate
-	modelMatrix *= glm::rotate(axisRotAngle, glm::vec3(0, 1, 0));
-	modelMatrix *= glm::scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
-	shader.setMat4("modelViewProjectionMatrix", camera.GetProjectionMatrix() * camera.GetViewMatrix() * modelMatrix);
 
-	glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
-	shader.setMat4("normalMatrix", normalMatrix);
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
+	shader.setMat4("model", model);
 	
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+	ourModel.Draw(shader);
 
 	glutSwapBuffers();
 }

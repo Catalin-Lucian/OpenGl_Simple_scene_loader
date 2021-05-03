@@ -40,5 +40,11 @@
     <ClInclude Include="camera.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
