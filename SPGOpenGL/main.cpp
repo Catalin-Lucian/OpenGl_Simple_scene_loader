@@ -29,7 +29,7 @@ Camera camera(glm::vec3(0, 12, 30));
 
 // ------------ models for the scene ------------
 
-Model ourModel("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/low_poly_room/Room.obj");
+Model ourModel;
 
 
 float axisRotAngle = PI / 16.0; 
@@ -42,8 +42,8 @@ void init()
 	// get version info
 	const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
 	const GLubyte* version = glGetString(GL_VERSION); // version as a string
-	printf("Renderer: %s\n", renderer);
-	printf("OpenGL version supported %s\n", version);
+	//std::cout << "Renderer: " << renderer << std::endl;;
+	//std::cout << "OpenGL version supported " << version << std::endl;;
 
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -53,6 +53,7 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
+	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/low_poly_room/Room.obj");
 }
 
 

@@ -36,8 +36,10 @@ public:
     string directory;
     bool gammaCorrection;
 
-    Model(string const& path, bool gamma = false) : gammaCorrection(gamma)
+    void init(string const& path, bool gamma = false)
     {
+        std::cout << "init model - " << endl;
+        gammaCorrection = gamma;
         loadModel(path);
     }
 
@@ -53,7 +55,7 @@ private:
 
     void loadModel(string const& path)
     {
-        
+        std::cout << "load model - " << endl;
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
@@ -71,6 +73,7 @@ private:
 
     void processNode(aiNode* node, const aiScene* scene)
     {
+        std::cout << "process node - " << endl;
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
            
@@ -86,7 +89,7 @@ private:
 
     Mesh processMesh(aiMesh* mesh, const aiScene* scene)
     {
-       
+        std::cout << "process mesh - " << endl;
         vector<Vertex> vertices;
         vector<unsigned int> indices;
         vector<Texture> textures;
@@ -155,6 +158,8 @@ private:
         std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+
+       
         // return a mesh object created from the extracted mesh data
         return Mesh(vertices, indices, textures);
     }
@@ -162,6 +167,7 @@ private:
     
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
     {
+        std::cout << "load material - " << endl;
         vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
@@ -195,6 +201,7 @@ private:
 
 unsigned int TextureFromFile(const char* path, const string& directory, bool gamma)
 {
+    std::cout << "load image - " << endl;
     string filename = string(path);
     filename = directory + '/' + filename;
 
