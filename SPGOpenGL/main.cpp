@@ -17,24 +17,41 @@
 #include "shader.h"
 #include "camera.h"
 #include "model.h"
+#include "lights.h"
 
-#define PI glm::pi<float>()
 
 int width = 700;
 int height = 700;
 
 // ------------ camera and shader -------------------
 Shader shader;
-Camera camera(glm::vec3(0, 12, 30));
+Camera camera(glm::vec3(0, 0, 30));
 
 // ------------ models for the scene ------------
 
 Model ourModel;
 
+// ------------- lights ----------------------
 
-float axisRotAngle = PI / 16.0; 
-float radius = 2;
-float scaleFactor = 0.1;
+DirLight dirlight(glm::vec3(-0.2f, -1.0f, -0.3f),
+	glm::vec3(0.05f, 0.05f, 0.1f),
+	glm::vec3(0.2f, 0.2f, 0.7),
+	glm::vec3(0.7f, 0.7f, 0.7f));
+
+PointLight pointlight1(glm::vec3(15.0f, 10.0f, 3.0f),
+	glm::vec3(0.2f, 0.2f, 0.6f),
+	glm::vec3(0.2f, 0.2f, 0.6f),
+	glm::vec3(0.2f, 0.2f, 0.6f),
+	325);
+
+PointLight pointlight2(glm::vec3(-15.f, 10.f, 3.0f),
+	glm::vec3(0.4f, 0.4f, 0.4f),
+	glm::vec3(0.4f, 0.4f, 0.04f),
+	glm::vec3(0.4f, 0.4f, 0.4f),
+	325);
+
+
+
 
 
 void init()
@@ -46,14 +63,14 @@ void init()
 	//std::cout << "OpenGL version supported " << version << std::endl;;
 
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/low_poly_room/Room.obj");
+	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/book/book.obj");
 }
 
 
@@ -62,19 +79,24 @@ void display()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader.use();
+	shader.set3Float("viewPos", camera.Position);
+	shader.setFloat("shininess", 100.0f);
 
-	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 100.0f);
+	//dirlight.render(shader);
+	pointlight1.render(shader, 0);
+	pointlight2.render(shader, 1);
+
+
+
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 1000.0f);
 	glm::mat4 view = camera.GetViewMatrix();
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 
 
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
 	shader.setMat4("model", model);
 	
-
 	ourModel.Draw(shader);
 
 	glutSwapBuffers();

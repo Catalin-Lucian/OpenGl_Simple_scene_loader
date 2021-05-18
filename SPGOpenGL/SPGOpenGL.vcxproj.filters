@@ -46,5 +46,8 @@
     <ClInclude Include="model.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="lights.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
