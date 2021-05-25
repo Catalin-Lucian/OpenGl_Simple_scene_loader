@@ -10,8 +10,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd textures/texture_environment.jpg
-map_d textures/texture_environment_opacity.jpg
+map_Kd textures/texture_environment.png
+map_d textures/texture_environment_opacity.jpeg
 
 newmtl Fortress
 Ns 18.000005
@@ -22,8 +22,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd textures/texture_building.jpg
-map_d textures/texture_building_opacity.jpg
+map_Kd textures/texture_building.jpeg
+map_d textures/texture_building_opacity.jpeg
 
 newmtl Sand
 Ns 18.000005
@@ -34,7 +34,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd textures/texture_sand.jpg
+map_Kd textures/texture_sand.jpeg
 
 newmtl Sea
 Ns 18.000005
@@ -45,8 +45,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd textures/texture_sea.jpg
-map_d textures/texture_sea_opacity.jpg
+map_Kd textures/texture_sea.jpeg
+map_d textures/texture_sea_opacity.jpeg
 
 newmtl Sky
 Ns 18.000005
@@ -57,4 +57,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 1
-map_Kd textures/texture_sky.jpg
+map_Kd textures/texture_sky.jpeg
