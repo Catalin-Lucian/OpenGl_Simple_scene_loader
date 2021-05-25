@@ -23,6 +23,12 @@
 int width = 700;
 int height = 700;
 
+// ------------- state variable ----------------------
+bool flashOn = false;
+bool pointLightOn1 = true;
+bool pointLightOn2 = true;
+bool directionalLightOn = true;
+
 // ------------ camera and shader -------------------
 Shader shader;
 Camera camera(glm::vec3(0, 0, 30));
@@ -50,8 +56,14 @@ PointLight pointlight2(glm::vec3(-15.f, 10.f, 3.0f),
 	glm::vec3(0.4f, 0.4f, 0.4f),
 	160);
 
-
-
+SpotLight spotLight(camera.Position, 
+	camera.Front,
+	glm::cos(glm::radians(10.0f)),
+	glm::cos(glm::radians(20.0f)),
+	vec3(0.0f, 0.0f, 0.0f),
+	vec3(1.0f, 1.0f, 1.0f),
+	vec3(1.0f, 1.0f, 1.0f),
+	100);
 
 
 void init()
@@ -70,7 +82,7 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/SPGOpenGL/SPGOpenGL/obj/city-scene-vernazza/city-scene-vernazza.obj");
+	ourModel.init("C:/Users/Adrian/OpenGl_Simple_scene_loader/SPGOpenGL/obj/book/book.obj");
 }
 
 
@@ -79,13 +91,28 @@ void display()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader.use();
-	shader.set3Float("viewPos", camera.Position);
+	shader.setVec3("viewPos", camera.Position);
 	shader.setFloat("shininess", 100.0f);
+	shader.setBool("flashOn", flashOn);
+	shader.setBool("pointLightOn[0]", pointLightOn1);
+	shader.setBool("pointLightOn[1]", pointLightOn2);
+	shader.setBool("directionalLightOn", directionalLightOn);
 
-	//dirlight.render(shader);
-	pointlight1.render(shader, 0);
-	pointlight2.render(shader, 1);
+	if(directionalLightOn)
+		dirlight.render(shader);
+	if(pointLightOn1)
+		pointlight1.render(shader, 0);
+	if (pointLightOn2)
+		pointlight2.render(shader, 1);
 
+	//Flash light
+	if (flashOn)
+	{
+		spotLight.position = camera.Position;
+		spotLight.direction = camera.Front;
+		spotLight.render(shader);
+	}
+		
 
 
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 1000.0f);
@@ -126,7 +153,30 @@ void keyboard(unsigned char key, int x, int y)
 	case 'd':
 		camera.ProcessKeyboard(RIGHT);
 		break;
-	
+	case 'f':
+		if (flashOn)
+			flashOn = false;
+		else
+			flashOn = true;
+		break;
+	case '1':
+		if (pointLightOn1)
+			pointLightOn1 = false;
+		else
+			pointLightOn1 = true;
+		break;
+	case '2':
+		if (pointLightOn2)
+			pointLightOn2 = false;
+		else
+			pointLightOn2 = true;
+		break;
+	case '0':
+		if (directionalLightOn)
+			directionalLightOn = false;
+		else
+			directionalLightOn = true;
+		break;
 	};
 	glutPostRedisplay(); // cauzeaza redesenarea ferestrei
 }
