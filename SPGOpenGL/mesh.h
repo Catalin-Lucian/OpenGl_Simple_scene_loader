@@ -26,33 +26,60 @@ struct Texture {
     string path;
 };
 
+struct Material {
+    glm::vec3 Diffuse;
+    glm::vec3 Specular;
+    glm::vec3 Ambient;
+    float Shininess;
+};
+
 class Mesh {
 public:
     vector<Vertex>       vertices;
     vector<unsigned int> indices;
     vector<Texture>      textures;
+    Material material;
+
+
+    bool txtDifuse = false;
+    bool txtSpecular = false;
+   
+ 
     unsigned int VAO;
 
-    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures,Material material)
     {
         this->vertices = vertices;
         this->indices = indices;
         this->textures = textures;
+        this->material = material;
 
         setupMesh();
     }
 
     void Draw(Shader& shader)
     {
+
      
         for (unsigned int i = 0; i < textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i); 
             string name = textures[i].type;
+            if (name == "texture_diffuse")
+                txtDifuse = true;
+            if (name == "texture_specular")
+                txtSpecular = true;
            
             glUniform1i(glGetUniformLocation(shader.ID, (name).c_str()), i);
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
+
+        shader.setBool("txtDiffuse", txtDifuse);
+        shader.setBool("txtSpecular", txtSpecular);
+        shader.setVec3("material.Diffuse", material.Diffuse);
+        shader.setVec3("material.Specular", material.Specular);
+        shader.setVec3("material.Specular", material.Ambient);
+        shader.setFloat("material.Shininess", material.Shininess);
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

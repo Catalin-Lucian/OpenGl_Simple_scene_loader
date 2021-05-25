@@ -40,9 +40,9 @@ Model ourModel;
 // ------------- lights ----------------------
 
 DirLight dirlight(glm::vec3(-0.2f, -1.0f, -0.3f),
-	glm::vec3(0.05f, 0.05f, 0.1f),
-	glm::vec3(0.2f, 0.2f, 0.7),
-	glm::vec3(0.7f, 0.7f, 0.7f));
+	glm::vec3(0.05f, 0.05f, 0.05f),
+	glm::vec3(0.4f, 0.4f, 0.4f),
+	glm::vec3(0.5f, 0.5f, 0.5f));
 
 PointLight pointlight1(glm::vec3(15.0f, 10.0f, 3.0f),
 	glm::vec3(0.2f, 0.2f, 1.0f),
@@ -63,7 +63,7 @@ SpotLight spotLight(camera.Position,
 	vec3(0.0f, 0.0f, 0.0f),
 	vec3(1.0f, 1.0f, 1.0f),
 	vec3(1.0f, 1.0f, 1.0f),
-	100);
+	200);
 
 
 void init()
@@ -82,7 +82,7 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("C:/Users/Adrian/OpenGl_Simple_scene_loader/SPGOpenGL/obj/book/book.obj");
+	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
 }
 
 
@@ -92,7 +92,6 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader.use();
 	shader.setVec3("viewPos", camera.Position);
-	shader.setFloat("shininess", 100.0f);
 	shader.setBool("flashOn", flashOn);
 	shader.setBool("pointLightOn[0]", pointLightOn1);
 	shader.setBool("pointLightOn[1]", pointLightOn2);
