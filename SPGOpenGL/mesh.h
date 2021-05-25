@@ -43,6 +43,7 @@ public:
 
     bool txtDifuse = false;
     bool txtSpecular = false;
+    bool txtNormal = false;
    
  
     unsigned int VAO;
@@ -69,6 +70,8 @@ public:
                 txtDifuse = true;
             if (name == "texture_specular")
                 txtSpecular = true;
+            if (name == "texture_normal")
+                txtNormal = true;
            
             glUniform1i(glGetUniformLocation(shader.ID, (name).c_str()), i);
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
@@ -76,6 +79,7 @@ public:
 
         shader.setBool("txtDiffuse", txtDifuse);
         shader.setBool("txtSpecular", txtSpecular);
+        shader.setBool("txtNormal", txtNormal);
         shader.setVec3("material.Diffuse", material.Diffuse);
         shader.setVec3("material.Specular", material.Specular);
         shader.setVec3("material.Specular", material.Ambient);

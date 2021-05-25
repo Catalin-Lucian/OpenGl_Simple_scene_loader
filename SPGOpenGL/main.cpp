@@ -82,7 +82,7 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
+	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/Village_Personal_Assets/Village_Personal_Assets.obj");
 }
 
 
@@ -176,6 +176,7 @@ void keyboard(unsigned char key, int x, int y)
 		else
 			directionalLightOn = true;
 		break;
+		
 	};
 	glutPostRedisplay(); // cauzeaza redesenarea ferestrei
 }
