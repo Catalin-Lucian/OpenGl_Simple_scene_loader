@@ -71,7 +71,7 @@ uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform bool flashOn;
 uniform bool pointLightOn[NR_POINT_LIGHTS];
 uniform bool directionalLightOn;
-
+uniform bool blinn;
 
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
@@ -110,17 +110,36 @@ void main()
 
 
    
-           
-    FragColor = vec4(result, 1.0);
+    float gamma = 2.2;
+    //FragColor =  vec4(pow(result, vec3(1.0/gamma)),1.f);
+     FragColor =  vec4(result,1.f);
 }
+
+
+
 
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(-light.direction);
     float diff = max(dot(normal, lightDir), 0.0);
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+//    vec3 reflectDir = reflect(-lightDir, normal);
+//    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+
+
+    float spec;
+    if(blinn)
+    {
+        //Blind fong reflexion
+        vec3 halfwayDir = normalize(lightDir + viewDir);  
+        spec = pow(max(dot(normal, halfwayDir), 0.0), material.Shininess);
+    }
+    else
+    {
+        //Fong reflexion
+      vec3 reflectDir = reflect(-lightDir, normal);
+        spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+    }
    
     vec3 tDiffuse=texture(texture_diffuse, TexCoords).rgb;
     vec3 tSpecular=texture(texture_specular, TexCoords).rgb;
@@ -145,11 +164,24 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
     vec3 lightDir = normalize(light.position - fragPos);
     float diff = max(dot(normal, lightDir), 0.0);
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+    
 
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (1 + light.linear * distance + light.quadratic * (distance * distance));    
+     float spec;
+    if(blinn)
+    {
+        //Blind fong reflexion
+        vec3 halfwayDir = normalize(lightDir + viewDir);  
+        spec = pow(max(dot(normal, halfwayDir), 0.0), material.Shininess);
+    }
+    else
+    {
+        //Fong reflexion
+      vec3 reflectDir = reflect(-lightDir, normal);
+        spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+    }
+
+    float dist = length(light.position - fragPos);
+    float attenuation = 1.0 / (1 + light.linear * dist + light.quadratic * (dist * dist));    
     
    vec3 ambient,diffuse,specular;
     if(txtDiffuse){
@@ -164,7 +196,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     else
         specular = light.specular * spec * material.Specular;
 
-
+        
     ambient *= attenuation;
     diffuse *= attenuation;
     specular *= attenuation;
@@ -177,8 +209,21 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+   
+    float spec;
+    if(blinn)
+    {
+        //Blind fong reflexion
+        vec3 halfwayDir = normalize(lightDir + viewDir);  
+        spec = pow(max(dot(normal, halfwayDir), 0.0), material.Shininess);
+    }
+    else
+    {
+        //Fong reflexion
+      vec3 reflectDir = reflect(-lightDir, normal);
+        spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
+    }
+
     // attenuation
     float dist = length(light.position - fragPos);
     float attenuation = 1.0 / (1 + light.linear * dist + light.quadratic * (dist * dist));    

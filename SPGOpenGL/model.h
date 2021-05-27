@@ -49,6 +49,15 @@ public:
         for (unsigned int i = 0; i < meshes.size(); i++)
             meshes[i].Draw(shader);
     }
+    void Draw(Shader& shader,int limit)
+    {
+        int l = limit;
+        if (limit > meshes.size()) {
+            l = meshes.size();
+        }
+        for (unsigned int i = 0; i < l; i++)
+            meshes[i].Draw(shader);
+    }
 
 private:
 

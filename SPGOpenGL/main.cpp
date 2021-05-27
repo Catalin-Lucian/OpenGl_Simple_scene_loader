@@ -28,6 +28,8 @@ bool flashOn = false;
 bool pointLightOn1 = true;
 bool pointLightOn2 = true;
 bool directionalLightOn = true;
+bool blinn = false;
+
 
 // ------------ camera and shader -------------------
 Shader shader;
@@ -36,11 +38,12 @@ Camera camera(glm::vec3(0, 0, 30));
 // ------------ models for the scene ------------
 
 Model ourModel;
+int nrMeshShown = 1;
 
 // ------------- lights ----------------------
 
 DirLight dirlight(glm::vec3(-0.2f, -1.0f, -0.3f),
-	glm::vec3(0.05f, 0.05f, 0.05f),
+	glm::vec3(0.7f, 0.0f, 0.4f),
 	glm::vec3(0.4f, 0.4f, 0.4f),
 	glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -48,19 +51,19 @@ PointLight pointlight1(glm::vec3(15.0f, 10.0f, 3.0f),
 	glm::vec3(0.2f, 0.2f, 1.0f),
 	glm::vec3(0.2f, 0.2f, 0.6f),
 	glm::vec3(0.2f, 0.2f, 0.6f),
-	160);
+	200);
 
 PointLight pointlight2(glm::vec3(-15.f, 10.f, 3.0f),
 	glm::vec3(1.0f, 0.4f, 0.4f),
 	glm::vec3(0.4f, 0.4f, 0.04f),
 	glm::vec3(0.4f, 0.4f, 0.4f),
-	160);
+	200);
 
 SpotLight spotLight(camera.Position, 
 	camera.Front,
 	glm::cos(glm::radians(10.0f)),
 	glm::cos(glm::radians(20.0f)),
-	vec3(0.0f, 0.0f, 0.0f),
+	vec3(1.0f, 1.0f, 1.0f),
 	vec3(1.0f, 1.0f, 1.0f),
 	vec3(1.0f, 1.0f, 1.0f),
 	200);
@@ -82,7 +85,7 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/Village_Personal_Assets/Village_Personal_Assets.obj");
+	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
 }
 
 
@@ -96,6 +99,7 @@ void display()
 	shader.setBool("pointLightOn[0]", pointLightOn1);
 	shader.setBool("pointLightOn[1]", pointLightOn2);
 	shader.setBool("directionalLightOn", directionalLightOn);
+	shader.setBool("blinn", blinn);
 
 	if(directionalLightOn)
 		dirlight.render(shader);
@@ -176,6 +180,15 @@ void keyboard(unsigned char key, int x, int y)
 		else
 			directionalLightOn = true;
 		break;
+	case '+':
+		nrMeshShown += 1;
+		break;
+	case '-':
+		nrMeshShown -= 1;
+		break;
+	case 'b':
+		if (blinn) blinn = false;
+		else blinn = true;
 		
 	};
 	glutPostRedisplay(); // cauzeaza redesenarea ferestrei
