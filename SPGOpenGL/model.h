@@ -150,15 +150,7 @@ private:
                 vec.y = mesh->mTextureCoords[0][i].y;
                 vertex.TexCoords = vec;
                 
-               /* vector.x = mesh->mTangents[i].x;
-                vector.y = mesh->mTangents[i].y;
-                vector.z = mesh->mTangents[i].z;
-                vertex.Tangent = vector;*/
-               
-                /*vector.x = mesh->mBitangents[i].x;
-                vector.y = mesh->mBitangents[i].y;
-                vector.z = mesh->mBitangents[i].z;
-                vertex.Bitangent = vector;*/
+             
             }
             else
                 vertex.TexCoords = glm::vec2(0.0f, 0.0f);
