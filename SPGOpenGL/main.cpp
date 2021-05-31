@@ -12,6 +12,7 @@
 #include <stack>
 #include <cmath>
 #include <assimp/texture.h>
+#include <reactphysics3d/reactphysics3d.h> 
 
 #include "objloader.hpp"
 #include "shader.h"
@@ -33,7 +34,7 @@ bool blinn = false;
 
 // ------------ camera and shader -------------------
 Shader shader;
-Camera camera(glm::vec3(0, 0, 30));
+Camera camera(glm::vec3(0, 30, 50));
 
 // ------------ models for the scene ------------
 
@@ -127,7 +128,7 @@ void display()
 	glm::mat4 model = glm::mat4(1.0f);
 	shader.setMat4("model", model);
 	
-	ourModel.Draw(shader, nrMeshShown);
+	ourModel.Draw(shader);
 
 	glutSwapBuffers();
 }
