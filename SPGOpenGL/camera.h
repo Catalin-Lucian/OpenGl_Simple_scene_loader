@@ -1,14 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-#include <glm/mat4x4.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/constants.hpp>
-
-#include <vector>
+#include "Includers.h"
 
 enum Camera_Movement {
     FORWARD,

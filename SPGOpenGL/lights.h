@@ -1,9 +1,8 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <string>
-#include "shader.h"
+
+#include "Includers.h"
+
 using namespace glm;
 
 //light distance:7 / 13 / 20 / 32 / 50 / 65 / 100 / 160 / 200 / 324 / 600 / 3250 

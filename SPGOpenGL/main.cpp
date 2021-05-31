@@ -1,24 +1,4 @@
-﻿#include <iostream>
-#include <fstream>
-#include <string>
-#include <stdio.h>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-#include <glm/mat4x4.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/constants.hpp>
-#include <vector>
-#include <stack>
-#include <cmath>
-#include <assimp/texture.h>
-#include <reactphysics3d/reactphysics3d.h> 
-
-#include "objloader.hpp"
-#include "shader.h"
-#include "camera.h"
-#include "model.h"
-#include "lights.h"
+﻿#include "Includers.h"
 
 
 int width = 700;
@@ -250,6 +230,31 @@ int main(int argc, char** argv)
 	glutMouseFunc(mouse_press);
 	glutPassiveMotionFunc(mouse_move);
 	glutMouseWheelFunc(mouse_wheel);
+
+
+	// logging and memory management
+	PhysicsCommon physicsCommon;
+	// Create a physics world
+	PhysicsWorld* world = physicsCommon.createPhysicsWorld();
+	// Create a rigid body in the world
+	Vector3 position(0, 20, 0);
+	Quaternion orientation = Quaternion::identity();
+	Transform transform(position, orientation);
+	RigidBody* body = world-> createRigidBody(transform);
+	const decimal timeStep = 1.0f / 60.0f;
+	// Step the simulation a few steps
+	for (int i = 0; i < 20; i++) {
+		world-> update(timeStep);
+		// Get the updated position of the body
+		const Transform& transform = body -> getTransform();
+		const Vector3& position = transform.getPosition();
+		// Display the position of the body
+		std::cout << " Body Position : (" << position.x << "," <<
+			position.y << ", " << position.z << ")" << std::endl;
+	}
+
+
+
 
 
 	glutMainLoop();

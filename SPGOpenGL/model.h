@@ -6,8 +6,12 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
-
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <map>
+#include <vector>
 
 #include "mesh.h"
 #include "shader.h"
@@ -15,12 +19,7 @@
 #define  STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <map>
-#include <vector>
+
 
 
 
