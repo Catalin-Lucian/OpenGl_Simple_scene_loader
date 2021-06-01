@@ -58,5 +58,8 @@
     <ClInclude Include="PhysicsObject.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="includers.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

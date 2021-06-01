@@ -128,16 +128,16 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case 'w':
-		camera.ProcessKeyboard(FORWARD);
+		scene.camera.ProcessKeyboard(FORWARD);
 		break;
 	case 's':
-		camera.ProcessKeyboard(BACKWARD);
+		scene.camera.ProcessKeyboard(BACKWARD);
 		break;
 	case 'a':
-		camera.ProcessKeyboard(LEFT);
+		scene.camera.ProcessKeyboard(LEFT);
 		break;
 	case 'd':
-		camera.ProcessKeyboard(RIGHT);
+		scene.camera.ProcessKeyboard(RIGHT);
 		break;
 	case 'f':
 		if (flashOn)
@@ -222,7 +222,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(200, 200);
 	glutInitWindowSize(width, height);
-	camera.SetWandH(width, height);
+	scene.camera.SetWandH(width, height);
 	glutCreateWindow("SPG");
 	init();
 

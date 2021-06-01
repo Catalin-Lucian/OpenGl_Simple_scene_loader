@@ -1,15 +1,14 @@
 #ifndef PHYSICSOBJECT_H
 #define PHYSICSOBJECT_H
-#include "Includers.h"
+#include "includers.h"
 
-class CollisionOject {
+class CollisionOBJ {
 public:
 	Model* model;
 	reactphysics3d::CollisionBody* body;
 	reactphysics3d::Collider* collider;
 
-	CollisionOject() {
-	}
+	
 	void SetModel(Model* model) {
 		this->model = model;
 	}

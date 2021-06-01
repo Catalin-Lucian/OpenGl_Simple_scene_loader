@@ -1,7 +1,7 @@
 #ifndef LIGHTS_H
 #define LIGHTS_H
 
-#include "Includers.h"
+#include "includers.h"
 
 using namespace glm;
 

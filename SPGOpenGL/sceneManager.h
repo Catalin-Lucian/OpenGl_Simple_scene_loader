@@ -1,8 +1,9 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 
-#include "Includers.h"
+#include "includers.h"
 #include <reactphysics3d/engine/Timer.h>
+#include "PhysicsObject.h"
 
 class SceneManager
 {
@@ -18,7 +19,7 @@ public:
 	// ----------------------- models ------------------------------
 
 	vector<Model> models;
-	CollisionOject mainObject();
+	CollisionOBJ mainobj;
 	
 
 	// ----------------------- lights ------------------------------
@@ -31,9 +32,9 @@ public:
 
 	void SetMainObject(string path) {
 		AddModel(path);
-		mainObject.SetModel(&models[0]);
-		mainObject.SetBody(world);
-		mainObject.SetCollider();
+		mainobj.SetModel(&models[0]);
+		mainobj.SetBody(world);
+		mainobj.SetCollider();
 
 	}
 

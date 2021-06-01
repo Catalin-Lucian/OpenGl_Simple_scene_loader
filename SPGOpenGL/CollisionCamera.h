@@ -1,8 +1,6 @@
 #ifndef COLLISIONCAMERA_H
 #define COLLISIONCAMERA_H
-#include "camera.h"
-
-
+#include "includers.h"
 
 
 class CollisionCamera :public Camera{
