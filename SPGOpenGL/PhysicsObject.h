@@ -4,6 +4,7 @@
 
 class CollisionOBJ {
 public:
+	reactphysics3d::PhysicsCommon physicsCommon;
 	Model* model;
 	reactphysics3d::CollisionBody* body;
 	reactphysics3d::Collider* collider;
@@ -21,7 +22,8 @@ public:
 
 	void SetCollider() {
 		reactphysics3d::Transform transform = reactphysics3d::Transform::identity();
-		collider = body->addCollider(CreateShape(), transform);
+		reactphysics3d::ConcaveMeshShape* shape = CreateShape();
+		collider = body->addCollider(shape, transform);
 	}
 
 private:
@@ -40,16 +42,16 @@ private:
 			indices[i] = mesh.indices[i];
 		}
 
-		return  new reactphysics3d::TriangleVertexArray(nrVertices, vertices, 3 * sizeof(
-				float), nrTriangles,
-				indices, 3 * sizeof(int),
+		return  new reactphysics3d::TriangleVertexArray(
+			nrVertices, vertices, 3 * sizeof(float),
+			nrTriangles, indices, 3 * sizeof(int),
 			reactphysics3d::TriangleVertexArray::VertexDataType::VERTEX_FLOAT_TYPE,
 			reactphysics3d::TriangleVertexArray::IndexDataType::INDEX_INTEGER_TYPE);
 	}
 
 
 	reactphysics3d::ConcaveMeshShape* CreateShape() {
-		reactphysics3d::PhysicsCommon physicsCommon;
+		
 		reactphysics3d::TriangleMesh* triangleMesh = physicsCommon.createTriangleMesh();
 		for (Mesh mesh:model->meshes)
 			triangleMesh->addSubpart(CreateArray(mesh));
