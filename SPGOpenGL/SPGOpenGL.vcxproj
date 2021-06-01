@@ -132,11 +132,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
-    <ClInclude Include="Includers.h" />
+    <ClInclude Include="CollisionCamera.h" />
     <ClInclude Include="lights.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="objloader.hpp" />
+    <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>

@@ -12,14 +12,13 @@ bool directionalLightOn = true;
 bool blinn = false;
 
 
-// ------------ camera and shader -------------------
+// ------------ scene and shader -------------------
+
 Shader shader;
-Camera camera(glm::vec3(0, 30, 50));
+SceneManager scene;
 
 // ------------ models for the scene ------------
 
-Model ourModel;
-int nrMeshShown = 1;
 
 // ------------- lights ----------------------
 
@@ -40,8 +39,8 @@ PointLight pointlight2(glm::vec3(-15.f, 10.f, 3.0f),
 	glm::vec3(0.4f, 0.4f, 0.4f),
 	200);
 
-SpotLight spotLight(camera.Position, 
-	camera.Front,
+SpotLight spotLight(scene.camera.Position, 
+	scene.camera.Front,
 	glm::cos(glm::radians(10.0f)),
 	glm::cos(glm::radians(20.0f)),
 	vec3(1.0f, 1.0f, 1.0f),
@@ -66,7 +65,10 @@ void init()
 	glewInit();
 
 	shader.init("vertex.vert", "fragment.frag");
-	ourModel.init("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
+	scene.InitScene();
+	scene.SetMainObject("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
+
+
 }
 
 
@@ -75,7 +77,7 @@ void display()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shader.use();
-	shader.setVec3("viewPos", camera.Position);
+	shader.setVec3("viewPos", scene.camera.Position);
 	shader.setBool("flashOn", flashOn);
 	shader.setBool("pointLightOn[0]", pointLightOn1);
 	shader.setBool("pointLightOn[1]", pointLightOn2);
@@ -92,15 +94,15 @@ void display()
 	//Flash light
 	if (flashOn)
 	{
-		spotLight.position = camera.Position;
-		spotLight.direction = camera.Front;
+		spotLight.position = scene.camera.Position;
+		spotLight.direction = scene.camera.Front;
 		spotLight.render(shader);
 	}
 		
 
 
-	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)width / (float)height, 0.1f, 1000.0f);
-	glm::mat4 view = camera.GetViewMatrix();
+	glm::mat4 projection = glm::perspective(glm::radians(scene.camera.Zoom), (float)width / (float)height, 0.1f, 1000.0f);
+	glm::mat4 view = scene.camera.GetViewMatrix();
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 
@@ -108,7 +110,7 @@ void display()
 	glm::mat4 model = glm::mat4(1.0f);
 	shader.setMat4("model", model);
 	
-	ourModel.Draw(shader);
+	scene.Draw(shader);
 
 	glutSwapBuffers();
 }
@@ -118,7 +120,7 @@ void reshape(int w, int h)
 	glViewport(0, 0, w, h);
 	width = w;
 	height = h;
-	camera.SetWandH(w, h);
+	
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -161,12 +163,7 @@ void keyboard(unsigned char key, int x, int y)
 		else
 			directionalLightOn = true;
 		break;
-	case '+':
-		nrMeshShown += 1;
-		break;
-	case '-':
-		nrMeshShown -= 1;
-		break;
+	
 	case 'b':
 		if (blinn) blinn = false;
 		else blinn = true;
@@ -199,7 +196,7 @@ void mouse_press(int button, int state, int x, int y) {
 }
 
 void mouse_wheel(int wheel, int direction, int x, int y) {
-	camera.ProcessMouseScroll(direction);
+	scene.camera.ProcessMouseScroll(direction);
 	glutPostRedisplay();
 }
 
@@ -207,12 +204,17 @@ void mouse_move(int x, int y) {
 	if (!visable_mouse) {
 		int xoff = x - (width / 2);
 		int yoff = y - (height / 2);
-		camera.ProcessMouseMovement(xoff, -yoff);
+		scene.camera.ProcessMouseMovement(xoff, -yoff);
 		if (x != width/2 || y != height/2)
 			glutWarpPointer(width / 2, height / 2);
 	}
 	glutPostRedisplay();
 }
+
+
+
+
+
 
 int main(int argc, char** argv)
 {
@@ -232,32 +234,15 @@ int main(int argc, char** argv)
 	glutMouseWheelFunc(mouse_wheel);
 
 
-	// logging and memory management
-	PhysicsCommon physicsCommon;
-	// Create a physics world
-	PhysicsWorld* world = physicsCommon.createPhysicsWorld();
-	// Create a rigid body in the world
-	Vector3 position(0, 20, 0);
-	Quaternion orientation = Quaternion::identity();
-	Transform transform(position, orientation);
-	RigidBody* body = world-> createRigidBody(transform);
-	const decimal timeStep = 1.0f / 60.0f;
-	// Step the simulation a few steps
-	for (int i = 0; i < 20; i++) {
-		world-> update(timeStep);
-		// Get the updated position of the body
-		const Transform& transform = body -> getTransform();
-		const Vector3& position = transform.getPosition();
-		// Display the position of the body
-		std::cout << " Body Position : (" << position.x << "," <<
-			position.y << ", " << position.z << ")" << std::endl;
-	}
+	
 
+	
 
-
-
-
+	
+	cout << "inainte de loop" << endl;
 	glutMainLoop();
+
+
 
 	return 0;
 }

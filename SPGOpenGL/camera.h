@@ -1,9 +1,11 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+#include <glm/mat4x4.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/constants.hpp>
 
-#include "Includers.h"
-
-enum Camera_Movement {
+enum MOVEMENT {
     FORWARD,
     BACKWARD,
     LEFT,
@@ -82,7 +84,7 @@ public:
  
     }
 
-    void ProcessKeyboard(Camera_Movement direction)
+    void ProcessKeyboard(MOVEMENT direction)
     {
         if (direction == FORWARD)
             Position += Front * MovementSpeed;
