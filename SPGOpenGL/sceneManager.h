@@ -56,28 +56,7 @@ public:
 		}
 	}
 
-	void RunSIMWorld() {
-		long double previousFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
-		const float timeStep = 1.0 / 60.0;
-		long double accumulator = 0;
-		while (runSim)
-		{
-		
-			
-			long double currentFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
-			long double deltaTime = currentFrameTime - previousFrameTime;
-			
-			previousFrameTime = currentFrameTime;
-			
-			accumulator += deltaTime;
-			
-			while (accumulator >= timeStep) {
-				world -> update(timeStep);
-				accumulator -= timeStep;
-			}
-			
-		}
-	}
+	
 
 
 };

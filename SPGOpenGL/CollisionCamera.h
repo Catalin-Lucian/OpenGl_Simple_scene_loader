@@ -46,20 +46,12 @@ public:
 
 	void ProcesssMove(MOVEMENT dirrection) {
 
-		switch (dirrection)
-		{
-		case FORWARD:
-
-			break;
-		case BACKWARD:
-			break;
-		case LEFT:
-			break;
-		case RIGHT:
-			break;
-		default:
-			break;
-		}
+		this->ProcessKeyboard(dirrection);
+		reactphysics3d::Vector3 position(Position.x, Position.y, Position.z);
+		reactphysics3d::Quaternion orientation = reactphysics3d::Quaternion::identity();
+		reactphysics3d::Transform newTransform(position, orientation);
+		// Move the collision body
+		body->setTransform(newTransform);
 	}
 
 

@@ -1,4 +1,5 @@
 ﻿#include "Includers.h"
+#include <thread>
 
 
 int width = 700;
@@ -67,7 +68,6 @@ void init()
 	shader.init("vertex.vert", "fragment.frag");
 	scene.InitScene();
 	scene.SetMainObject("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
-
 
 }
 
@@ -214,7 +214,28 @@ void mouse_move(int x, int y) {
 
 
 
+void RunSIMWorld() {
+	long double previousFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
+	const float timeStep = 1.0 / 60.0;
+	long double accumulator = 0;
+	while (true)
+	{
 
+
+		long double currentFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
+		long double deltaTime = currentFrameTime - previousFrameTime;
+
+		previousFrameTime = currentFrameTime;
+
+		accumulator += deltaTime;
+
+		while (accumulator >= timeStep) {
+			scene.world->update(timeStep);
+			accumulator -= timeStep;
+		}
+
+	}
+}
 
 int main(int argc, char** argv)
 {
@@ -236,9 +257,8 @@ int main(int argc, char** argv)
 
 	
 
-	
+	thread runsim(RunSIMWorld);
 
-	
 	cout << "inainte de loop" << endl;
 	glutMainLoop();
 
