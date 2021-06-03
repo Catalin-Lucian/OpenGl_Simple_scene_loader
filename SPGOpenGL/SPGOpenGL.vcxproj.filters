@@ -23,33 +23,9 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="objloader.cpp">
-      <Filter>headers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shader.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="objloader.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="lights.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneManager.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCamera.h">
@@ -59,6 +35,24 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="includers.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

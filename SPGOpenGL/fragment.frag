@@ -4,10 +4,6 @@ out vec4 FragColor;
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_specular;
 uniform sampler2D texture_normal;
-//float shininess;
-
-
-
 
 struct DirLight {
     vec3 direction;
@@ -108,10 +104,6 @@ void main()
     if(flashOn)
         result += CalcSpotLight(spotLight, norm, FragPos, viewDir); 
 
-
-   
-    float gamma = 2.2;
-    //FragColor =  vec4(pow(result, vec3(1.0/gamma)),1.f);
      FragColor =  vec4(result,1.f);
 }
 
@@ -123,8 +115,6 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(-light.direction);
     float diff = max(dot(normal, lightDir), 0.0);
-//    vec3 reflectDir = reflect(-lightDir, normal);
-//    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
 
 
     float spec;
@@ -227,10 +217,13 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     // attenuation
     float dist = length(light.position - fragPos);
     float attenuation = 1.0 / (1 + light.linear * dist + light.quadratic * (dist * dist));    
+
     // spotlight intensity
     float theta = dot(lightDir, normalize(-light.direction)); 
     float epsilon = light.cutOff - light.outerCutOff;
     float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
+
+
     // combine results
     vec3 ambient,diffuse,specular;
     if(txtDiffuse){

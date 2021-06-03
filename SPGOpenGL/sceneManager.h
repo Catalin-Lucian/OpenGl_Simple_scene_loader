@@ -4,12 +4,11 @@
 #include "includers.h"
 #include <reactphysics3d/engine/Timer.h>
 #include "PhysicsObject.h"
-
+#define PI glm::pi<float>()
 class SceneManager
 {
 public:
 
-	bool runSim;
 	// ------------------------ state variables --------------------
 	reactphysics3d::PhysicsCommon physicsCommon;
 	reactphysics3d::PhysicsWorld * world;
@@ -20,13 +19,9 @@ public:
 
 	vector<Model> models;
 	CollisionOBJ mainobj;
-	
-
-	// ----------------------- lights ------------------------------
-
+	vector<CollisionOBJ*> objects;
 
 	SceneManager() {
-		runSim = true;
 		world = physicsCommon.createPhysicsWorld();
 	};
 
@@ -38,10 +33,20 @@ public:
 
 	}
 
+	void AddObject(string path) {
+		AddModel(path);
+		CollisionOBJ* temp = new CollisionOBJ;
+		temp->SetModel(&models[models.size() - 1]);
+		temp->SetBody(world);
+		temp->SetCollider();
+
+		objects.push_back(temp);
+	}
+
 	void InitScene() {
 		camera.SetBody(world);
-		camera.SetCollider(physicsCommon.createSphereShape(5.0));
-		world->testOverlap(camera.body,camera.cameraEvent);
+		camera.SetCollider(physicsCommon.createSphereShape(0.5));
+		//world->testOverlap(camera.body,camera.cameraEvent);
 	}
 
 	void AddModel(string path) {
@@ -51,15 +56,17 @@ public:
 	}
 
 	void Draw(Shader& shader) {
+
+		int cnt = 0;
 		for (Model model : models) {
+			if( cnt != 0)
+				shader.setMat4("model", objects[cnt-1]->mvp);
 			model.Draw(shader);
+			cnt++;
 		}
 	}
-
-	
-
-
 };
+
 
 
 

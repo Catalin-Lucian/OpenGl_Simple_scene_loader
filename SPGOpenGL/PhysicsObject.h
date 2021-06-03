@@ -8,8 +8,8 @@ public:
 	Model* model;
 	reactphysics3d::CollisionBody* body;
 	reactphysics3d::Collider* collider;
+	mat4 mvp = glm::mat4(1.0f);
 
-	
 	void SetModel(Model* model) {
 		this->model = model;
 	}
@@ -19,13 +19,11 @@ public:
 		reactphysics3d::Transform transform(position, orientation);
 		body = world -> createCollisionBody(transform);
 	}
-
 	void SetCollider() {
 		reactphysics3d::Transform transform = reactphysics3d::Transform::identity();
 		reactphysics3d::ConcaveMeshShape* shape = CreateShape();
 		collider = body->addCollider(shape, transform);
 	}
-
 private:
 	reactphysics3d::TriangleVertexArray* CreateArray(Mesh& mesh) {
 		int nrTriangles = mesh.indices.size()/3;
@@ -48,8 +46,6 @@ private:
 			reactphysics3d::TriangleVertexArray::VertexDataType::VERTEX_FLOAT_TYPE,
 			reactphysics3d::TriangleVertexArray::IndexDataType::INDEX_INTEGER_TYPE);
 	}
-
-
 	reactphysics3d::ConcaveMeshShape* CreateShape() {
 		
 		reactphysics3d::TriangleMesh* triangleMesh = physicsCommon.createTriangleMesh();

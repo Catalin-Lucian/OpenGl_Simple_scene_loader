@@ -73,8 +73,8 @@
     <LibraryPath>D:\Fac_an3_sem2\SPG\Proiect\ProiectPrincipal\SPGOpenGL\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Fac_an3_sem2\SPG\Proiect\ProiectPrincipal\SPGOpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Fac_an3_sem2\SPG\Proiect\ProiectPrincipal\SPGOpenGL\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Adrian\OneDrive\Desktop\ProiectPrincipal\SPGOpenGL\include;D:\Fac_an3_sem2\SPG\Proiect\ProiectPrincipal\SPGOpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Adrian\OneDrive\Desktop\ProiectPrincipal\SPGOpenGL;D:\Fac_an3_sem2\SPG\Proiect\ProiectPrincipal\SPGOpenGL\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -133,19 +133,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="objloader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionCamera.h" />
     <ClInclude Include="includers.h" />
-    <ClInclude Include="lights.h" />
-    <ClInclude Include="mesh.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="objloader.hpp" />
+    <ClInclude Include="Lights.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="PhysicsObject.h" />
-    <ClInclude Include="sceneManager.h" />
-    <ClInclude Include="shader.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

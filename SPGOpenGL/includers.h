@@ -22,13 +22,12 @@
 #include <reactphysics3d/reactphysics3d.h> 
 
 
-#include "objloader.hpp"
-#include "shader.h"
-#include "camera.h"
-#include "model.h"
-#include "lights.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "Model.h"
+#include "Lights.h"
 #include "CollisionCamera.h"
-#include "sceneManager.h"
+#include "SceneManager.h"
 #include "PhysicsObject.h"
 
 

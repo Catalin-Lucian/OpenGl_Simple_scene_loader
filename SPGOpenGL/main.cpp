@@ -24,7 +24,7 @@ SceneManager scene;
 // ------------- lights ----------------------
 
 DirLight dirlight(glm::vec3(-0.2f, -1.0f, -0.3f),
-	glm::vec3(0.7f, 0.0f, 0.4f),
+	glm::vec3(0.9f, 0.9f, 0.9f),
 	glm::vec3(0.4f, 0.4f, 0.4f),
 	glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -67,7 +67,9 @@ void init()
 
 	shader.init("vertex.vert", "fragment.frag");
 	scene.InitScene();
-	scene.SetMainObject("D:/Fac_an3_sem2/SPG/Proiect/ProiectPrincipal/SPGOpenGL/obj/book/book.obj");
+	scene.SetMainObject("D:/Fac_an3_sem2/SPG/OpenGl_Simple_scene_loader/SPGOpenGL/obj/book/book.obj"); 
+	scene.AddObject("D:/Fac_an3_sem2/SPG/OpenGl_Simple_scene_loader/SPGOpenGL/obj/book/water_wheel.obj");
+	scene.AddObject("D:/Fac_an3_sem2/SPG/OpenGl_Simple_scene_loader/SPGOpenGL/obj/book/mill_wheel.obj");
 
 }
 
@@ -109,7 +111,9 @@ void display()
 
 	glm::mat4 model = glm::mat4(1.0f);
 	shader.setMat4("model", model);
+
 	
+
 	scene.Draw(shader);
 
 	glutSwapBuffers();
@@ -128,16 +132,16 @@ void keyboard(unsigned char key, int x, int y)
 	switch (key)
 	{
 	case 'w':
-		scene.camera.ProcessKeyboard(FORWARD);
+		scene.camera.ProcesssMove(FORWARD);
 		break;
 	case 's':
-		scene.camera.ProcessKeyboard(BACKWARD);
+		scene.camera.ProcesssMove(BACKWARD);
 		break;
 	case 'a':
-		scene.camera.ProcessKeyboard(LEFT);
+		scene.camera.ProcesssMove(LEFT);
 		break;
 	case 'd':
-		scene.camera.ProcessKeyboard(RIGHT);
+		scene.camera.ProcesssMove(RIGHT);
 		break;
 	case 'f':
 		if (flashOn)
@@ -167,6 +171,8 @@ void keyboard(unsigned char key, int x, int y)
 	case 'b':
 		if (blinn) blinn = false;
 		else blinn = true;
+		break;
+
 		
 	};
 	glutPostRedisplay(); // cauzeaza redesenarea ferestrei
@@ -212,30 +218,29 @@ void mouse_move(int x, int y) {
 }
 
 
+void idleFunction() {
+	glutPostRedisplay();
+}
 
 
-void RunSIMWorld() {
-	long double previousFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
-	const float timeStep = 1.0 / 60.0;
-	long double accumulator = 0;
+void RotateWheel() {
 	while (true)
 	{
+		scene.objects[1]->mvp *= 
+			glm::translate(glm::vec3(-40.84f, 11.47f, 27.22f)) * glm::rotate(-PI / 5.1428f, glm::vec3(0.0f, 1.0f, 0.0f))*
+			glm::rotate(PI / 16, glm::vec3(1.0f, 0.0f, 0.0f)) *
+			glm::rotate(PI / 5.1428f, glm::vec3(0.0f, 1.0f, 0.0f)) * glm::translate(glm::vec3(40.84f, -11.47f, -27.22f));
 
 
-		long double currentFrameTime = reactphysics3d::Timer::getCurrentSystemTime();
-		long double deltaTime = currentFrameTime - previousFrameTime;
+		scene.objects[0]->mvp *= 
+			glm::translate(glm::vec3(0.0f, 7.03f, 15.74f)) * 
+			glm::rotate(-PI / 16, glm::vec3(1.0f, 0.0f, 0.0f)) * 
+			glm::translate(glm::vec3(0.0f, -7.03f, -15.74f));
 
-		previousFrameTime = currentFrameTime;
-
-		accumulator += deltaTime;
-
-		while (accumulator >= timeStep) {
-			scene.world->update(timeStep);
-			accumulator -= timeStep;
-		}
-
+		Sleep(100);
 	}
 }
+
 
 int main(int argc, char** argv)
 {
@@ -253,11 +258,12 @@ int main(int argc, char** argv)
 	glutMouseFunc(mouse_press);
 	glutPassiveMotionFunc(mouse_move);
 	glutMouseWheelFunc(mouse_wheel);
+	glutIdleFunc(idleFunction);
 
 
 	
 
-	thread runsim(RunSIMWorld);
+	thread rotateWheel(RotateWheel);
 
 	cout << "inainte de loop" << endl;
 	glutMainLoop();
